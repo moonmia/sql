@@ -1,0 +1,69 @@
+Select COUNT(*)
+From Production.Product p
+
+Select COUNT (ProductSubcategoryID)
+As HasSubCategoryID
+From Production.Product p
+
+Select p.ProductSubcategoryID, COUNT ([Name])
+As CountedProducts
+From Production.Product p
+Group by p.ProductSubcategoryID
+
+Select COUNT(*)
+As NoSubCat
+From Production.Product p
+Where p.ProductSubcategoryID Is Null
+
+Select pro.ProductID, SUM(quantity) 
+As TheSum
+From Production.ProductInventory pro
+Group by pro.ProductID
+
+Select pro.ProductID, SUM(quantity) 
+As TheSum
+From Production.ProductInventory pro
+Where pro.LocationID = 40
+Group by pro.ProductID
+Having SUM(quantity) < 100
+
+
+Select pro.Shelf, pro.ProductID, SUM(quantity) 
+As TheSum
+From Production.ProductInventory pro
+Where pro.LocationID = 40
+Group by pro.ProductID, pro.Shelf
+Having SUM(quantity) < 100
+
+Select AVG(quantity)
+As TheAverage
+From Production.ProductInventory pro
+Where pro.LocationID = 10
+
+Select pro.Shelf, AVG(quantity)
+As TheAvg
+From Production.ProductInventory pro
+Where pro.LocationID = 10
+Group by pro.Shelf
+
+Select pro.ProductID, pro.Shelf, AVG(quantity)
+As TheAvg
+From Production.ProductInventory pro
+Where pro.Shelf <> 'N/A'
+Group by pro.ProductID, pro.Shelf
+
+Select p.Color, p.Class, COUNT(*) As theCount, AVG(ListPrice) AS AvgPrice
+From Production.Product p
+Where p.Class Is Not Null And p.Color Is Not Null
+Group by GROUPING Sets((p.Color), (p.Class))
+
+Select p1.[Name]Country, p2.[Name]Province
+From Person.CountryRegion p1
+Join Person.StateProvince p2
+on p1.CountryRegionCode = p2.CountryRegionCode
+
+Select p1.[Name]Country, p2.[Name]Province
+From Person.CountryRegion p1
+Join Person.StateProvince p2
+on p1.CountryRegionCode = p2.CountryRegionCode
+Where p1.[Name] In ('Germany', 'Canada')
